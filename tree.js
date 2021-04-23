@@ -54,34 +54,21 @@ class Tree {
    * whose value is greater than lowerBound. */
 
 	numGreater (lowerBound) {
-	
+		if (this.root === null) return 0;
+
+		let count = 0;
+
+		const greater = (node) => {
+			for (let child of node.children) {
+				child.val > lowerBound ? count++ : count;
+				if (child.children.length > 0) {
+					greater(child);
+				}
+			}
+		};
+		greater(this.root);
+		return this.root.val > lowerBound ? this.root.val + count : count;
+	}
 }
 
-// module.exports = { Tree, TreeNode };
-
-let n = new TreeNode(1);
-let n2 = new TreeNode(2);
-let n3 = new TreeNode(3);
-let n4 = new TreeNode(4);
-let n5 = new TreeNode(5);
-let n6 = new TreeNode(6);
-let n7 = new TreeNode(7);
-let n8 = new TreeNode(8);
-
-n.children = [ n2, n3, n4 ];
-
-n4.children.push(n5, n6);
-n6.children.push(n7);
-n7.children.push(n8);
-
-largeTree = new Tree(n);
-
-// console.log(largeTree); // Tree { root: TreeNode { val: 1, children: [ [TreeNode] ] } }
-// console.log(smallTree.root); // TreeNode { val: 1, children: [ TreeNode { val: 2, children: [] } ] }
-// console.log(smallTree.root.val); // 1
-// console.log(smallTree.root.children); // [ TreeNode { val: 2, children: [] } ]
-// console.log(smallTree.sumValues());
-
-console.log(largeTree.numGreater(0)); // 8
-console.log(largeTree.numGreater(4)); // 4
-console.log(largeTree.numGreater(8)); // 0
+module.exports = { Tree, TreeNode };

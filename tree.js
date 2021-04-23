@@ -33,12 +33,28 @@ class Tree {
 
 	/** countEvens(): count all of the nodes in the tree with even values. */
 
-	countEvens () {}
+	countEvens () {
+		if (this.root === null) return 0;
+
+		let count = 0;
+
+		const evens = (node) => {
+			for (let child of node.children) {
+				child.val % 2 === 0 ? count++ : count;
+				if (child.children.length > 0) {
+					evens(child);
+				}
+			}
+		};
+		evens(this.root);
+		return this.root.val % 2 === 0 ? this.root.val + count : count;
+	}
 
 	/** numGreater(lowerBound): return a count of the number of nodes
    * whose value is greater than lowerBound. */
 
-	// numGreater (lowerBound) {}
+	numGreater (lowerBound) {
+	
 }
 
 // module.exports = { Tree, TreeNode };
@@ -66,4 +82,6 @@ largeTree = new Tree(n);
 // console.log(smallTree.root.children); // [ TreeNode { val: 2, children: [] } ]
 // console.log(smallTree.sumValues());
 
-console.log(largeTree.sumValues());
+console.log(largeTree.numGreater(0)); // 8
+console.log(largeTree.numGreater(4)); // 4
+console.log(largeTree.numGreater(8)); // 0
